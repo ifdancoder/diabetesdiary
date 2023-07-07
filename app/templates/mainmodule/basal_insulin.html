@@ -1,0 +1,29 @@
+{% extends '../base.html'%}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    <ul class="mb-0">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}
+<form method="POST" action="{{ url_for('basal_insulin') }}">
+    {{ form.csrf_token }}
+    <table>
+        {% for i in range(24) %}
+        <tr>
+            <td>Базальный инсулин ({{ "%02d:%02d"|format(i, i+1) }}):</td>
+            <td>{{ form['insulin_' + i|string]() }}</td>
+            <td>{% for error in form['insulin_' + i|string].errors %}<span style="color: red;">{{ error }}</span>{%
+                endfor %}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {{ form.submit() }}
+</form>
+{% endblock %}

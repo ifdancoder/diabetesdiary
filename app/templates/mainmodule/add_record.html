@@ -1,0 +1,104 @@
+{% extends '../base.html'%}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-danger" role="alert">
+    <ul class="mb-0">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endwith %}
+<form method="POST" action="{{ url_for('diary_record') }}">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        <label for="{{ form.datetime.id }}">{{ form.datetime.label }}</label>
+        {{ form.datetime(class='form-control') }}
+        {% for error in form.datetime.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.sugar_level.id }}">{{ form.sugar_level.label }}</label>
+        {{ form.sugar_level(class='form-control') }}
+        {% for error in form.sugar_level.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.fast_chs.id }}">{{ form.fast_chs.label }}</label>
+        {{ form.fast_chs(class='form-control') }}
+        {% for error in form.fast_chs.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.medium_chs.id }}">{{ form.medium_chs.label }}</label>
+        {{ form.medium_chs(class='form-control') }}
+        {% for error in form.medium_chs.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.slow_chs.id }}">{{ form.slow_chs.label }}</label>
+        {{ form.slow_chs(class='form-control') }}
+        {% for error in form.slow_chs.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.short_insulin.id }}">{{ form.short_insulin.label }}</label>
+        {{ form.short_insulin(class='form-control') }}
+        {% for error in form.short_insulin.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="{{ form.alcohol.id }}" name="{{ form.alcohol.name }}">
+        <label class="form-check-label" for="{{ form.alcohol.id }}">{{ form.alcohol.label }}</label>
+        {% for error in form.alcohol.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.physical_activities.id }}">{{ form.physical_activities.label }}</label>
+        {{ form.physical_activities(class='form-control') }}
+        {% for error in form.physical_activities.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.sleep.id }}">{{ form.sleep.label }}</label>
+        {{ form.sleep(class='form-control') }}
+        {% for error in form.sleep.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.stress.id }}">{{ form.stress.label }}</label>
+        {{ form.stress(class='form-control') }}
+        {% for error in form.stress.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="{{ form.changing_cannula.id }}"
+            name="{{ form.changing_cannula.name }}">
+        <label class="form-check-label" for="{{ form.changing_cannula.id }}">{{ form.changing_cannula.label }}</label>
+        {% for error in form.changing_cannula.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.notes.id }}">{{ form.notes.label }}</label>
+        {{ form.notes(class='form-control') }}
+        {% for error in form.notes.errors %}
+        <div class="invalid-feedback">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
