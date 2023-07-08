@@ -7,6 +7,7 @@
     {% include 'header.html' %}
     <main>
         <div class="container py-5">
+            {% set title = title or 'Дневник диабетика' %}
             <h2>{{ title }}</h2>
             <div class="container">
                 {% block content %}

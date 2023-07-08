@@ -1,4 +1,4 @@
-{% extends '../base.html'%}
+{% extends '../../../templates/base.html' %}
 
 {% block content %}
 {% with messages = get_flashed_messages() %}
@@ -12,7 +12,7 @@
 </div>
 {% endif %}
 {% endwith %}
-<form method="POST" action="{{ url_for('basal_insulin') }}">
+<form method="POST" action="{{ url_for('mainmodule.basal_insulin') }}">
     {{ form.csrf_token }}
     <table>
         {% for i in range(24) %}

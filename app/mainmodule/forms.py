@@ -3,12 +3,12 @@ from wtforms import StringField, PasswordField, SubmitField, DecimalField, DateT
 from wtforms.validators import DataRequired, Length, Email, EqualTo, NumberRange, Optional
 from datetime import datetime
 
-class SignIn(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(message='Это поле обязательно для заполнения'), Email(message='Введите корректный email')])
+class Login(FlaskForm):
+    email = StringField('Имя пользователя или email', validators=[DataRequired(message='Это поле обязательно для заполнения'), Email(message='Введите корректный email')])
     password = PasswordField('Пароль', validators=[DataRequired(message='Это поле обязательно для заполнения')])
     submit = SubmitField('Вход')
 
-class SignUp(FlaskForm):
+class Register(FlaskForm):
     first_name = StringField('Имя', validators=[DataRequired(message='Это поле обязательно для заполнения'), Length(min=2, max=50, message='Введите корректное имя (от 2 до 50 символов)')])
     last_name = StringField('Фамилия', validators=[DataRequired(message='Это поле обязательно для заполнения'), Length(min=2, max=50, message='Введите корректную фамилию (от 2 до 50 символов)')])
     email = StringField('Email', validators=[DataRequired(message='Это поле обязательно для заполнения'), Email(message='Введите корректный email')])

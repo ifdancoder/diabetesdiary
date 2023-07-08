@@ -1,4 +1,4 @@
-{% extends '../base.html'%}
+{% extends 'base.html' %}
 
 {% block content %}
 {% with messages = get_flashed_messages() %}
@@ -12,7 +12,7 @@
 </div>
 {% endif %}
 {% endwith %}
-<form method="POST" action="{{ url_for('diary_record') }}">
+<form method="POST" action="{{ url_for('mainmodule.diary_record') }}">
     {{ form.csrf_token }}
     <div class="form-group">
         <label for="{{ form.datetime.id }}">{{ form.datetime.label }}</label>
