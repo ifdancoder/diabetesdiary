@@ -10,6 +10,32 @@
             {% set title = title or 'Дневник диабетика' %}
             <h2>{{ title }}</h2>
             <div class="container">
+                <div class="messages" id="messages">
+                    {% with messages = messages or get_flashed_messages(with_categories=true) %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="alert alert-success">{{ message }}</div>
+                            {% elif category == 'info' %}
+                                <div class="alert alert-info">{{ message }}</div>
+                            {% elif category == 'warning' %}
+                                <div class="alert alert-warning">{{ message }}</div>
+                            {% elif category == 'error' %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% else %}
+                                <div class="alert">{{ message }}</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endwith %}
+                </div>
+                <script>
+                    var divToAnimate = document.getElementById("messages");
+                    divToAnimate.style.animationName = "fadeOut";
+                    divToAnimate.style.animationDuration = timeInMSToInS(messagesTime);
+                    divToAnimate.style.animationIterationCount = 1;
+                    setTimeout(function() {
+                        divToAnimate.remove();
+                    }, messagesTime);
+                </script>
                 {% block content %}
                 {% endblock %}
             </div>

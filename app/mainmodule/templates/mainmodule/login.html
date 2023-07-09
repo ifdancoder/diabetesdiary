@@ -1,31 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="alert alert-danger" role="alert">
-    <ul class="mb-0">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-{% endwith %}
-<form method="POST" action="{{ url_for('mainmodule.login') }}">
+<form method="POST" action="{{ url_for('.login', next=request.args.get('next')) }}">
     {{ form.csrf_token }}
     <div class="form-group">
         <label for="{{ form.email.id }}">{{ form.email.label }}</label>
         {{ form.email(class='form-control') }}
         {% for error in form.email.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
         {% endfor %}
     </div>
     <div class="form-group">
         <label for="{{ form.password.id }}">{{ form.password.label }}</label>
         {{ form.password(class='form-control') }}
         {% for error in form.password.errors %}
-        <div class="invalid-feedback">{{ error }}</div>
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="{{ form.remember_me.id }}" name="{{ form.remember_me.name }}">
+        <label class="form-check-label" for="{{ form.remember_me.id }}">{{ form.remember_me.label }}</label>
+        {% for error in form.remember_me.errors %}
+        <div class="alert alert-danger" role="alert">{{ error }}</div>
         {% endfor %}
     </div>
     {{ form.submit(class='btn btn-primary') }}

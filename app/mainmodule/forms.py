@@ -6,14 +6,17 @@ from datetime import datetime
 class Login(FlaskForm):
     email = StringField('Имя пользователя или email', validators=[DataRequired(message='Это поле обязательно для заполнения'), Email(message='Введите корректный email')])
     password = PasswordField('Пароль', validators=[DataRequired(message='Это поле обязательно для заполнения')])
+    remember_me = BooleanField('Запомнить меня')
     submit = SubmitField('Вход')
 
+from .custom_validators import existing_email
 class Register(FlaskForm):
     first_name = StringField('Имя', validators=[DataRequired(message='Это поле обязательно для заполнения'), Length(min=2, max=50, message='Введите корректное имя (от 2 до 50 символов)')])
     last_name = StringField('Фамилия', validators=[DataRequired(message='Это поле обязательно для заполнения'), Length(min=2, max=50, message='Введите корректную фамилию (от 2 до 50 символов)')])
-    email = StringField('Email', validators=[DataRequired(message='Это поле обязательно для заполнения'), Email(message='Введите корректный email')])
+    email = StringField('Email', validators=[DataRequired(message='Это поле обязательно для заполнения'), Email(message='Введите корректный email'), existing_email()])
     password1 = PasswordField('Пароль', validators=[DataRequired(message='Это поле обязательно для заполнения'), Length(min=8, max=50, message='Придумайте пароль сложнее')])
     password2 = PasswordField('Повтор пароля', validators=[DataRequired(message='Это поле обязательно для заполнения'), EqualTo('password1', message='Пароли не совпадают')])
+    remember_me = BooleanField('Запомнить меня после входа')
     submit = SubmitField('Регистрация и вход')
 
 class BasalInsulin(FlaskForm):

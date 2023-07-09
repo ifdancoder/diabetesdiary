@@ -1,22 +1,19 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import and_
+
 db = SQLAlchemy()
+from sqlalchemy.exc import SQLAlchemyError
 
 from app.mainmodule.models import User
 
 '''User'''
 
-def hashed_password(password):
-    from werkzeug.security import generate_password_hash
-    return generate_password_hash(password)
-
-def check_user_username_exists(username):
+def get_user_by_id(user_id):
     try:
-        user_existing = bool(User.query.filter_by(username=username).first())
-        message = "User exists" if user_existing else "User does not exist"
-        return {"status": 200, "message": message, "result": user_existing}
+        user = User.query.get(user_id)
+        return {"status": 200, "message": 'User found', "result": user}
     except SQLAlchemyError:
-        return {"status": 500, "message": "Error occurred while checking username existence"}
+        return {"status": 500, "message": "Error occurred while getting user", "result": None}
 
 def check_user_email_exists(email):
     try:
@@ -24,35 +21,33 @@ def check_user_email_exists(email):
         message = "User exists" if user_existing else "User does not exist"
         return {"status": 200, "message": message, "result": user_existing}
     except SQLAlchemyError:
-        return {"status": 500, "message": "Error occurred while checking email existence"}
+        return {"status": 500, "message": "Error occurred while checking email existence", "result": None}
 
-def check_user_entered_data(username_or_email, password):
+
+from werkzeug.security import generate_password_hash, check_password_hash
+
+def check_user_entered_data(email, password):
     try:
-        hashed_password = hashed_password(password)
-        user = None
-        if '@' in username_or_email:
-            user = User.query.filter_by(email=username_or_email, password=hashed_password).first()
-        else:
-            user = User.query.filter_by(username=username_or_email, password=hashed_password).first()
+        user = User.query.filter(email == email).first()
 
-        if user:
-            return {"status": 200, "message": "Login successful", "result": user}
+        if user and check_password_hash(user.password, password):
+            return {"status": 200, "message": "Login successful", "result": user.id}
         else:
-            return {"status": 401, "message": "Invalid username/email or password"}
+            return {"status": 401, "message": "Invalid email or password", "result": None}
     except SQLAlchemyError:
-        return {"status": 500, "message": "Error occurred while checking user data"}
+        return {"status": 500, "message": "Error occurred while checking user data", "result": None}
 
-def register_new_user(first_name, last_name, email, password, username):
+def register_new_user(first_name, last_name, email, password):
     try:
-        user = User(first_name=first_name, last_name=last_name, email=email, password=hashed_password(password), username=username)
+        user = User(first_name=first_name, last_name=last_name, email=email, password=generate_password_hash(password))
         db.session.add(user)
         db.session.commit()
         if user.id:
             return {"status": 200, "message": "User registered successfully", "result": user.id}
         else:
-            return {"status": 500, "message": "Failed to register user"}
+            return {"status": 401, "message": "Failed to register user", "result": None}
     except SQLAlchemyError:
-        return {"status": 500, "message": "Error occurred while registering new user"}
+        return {"status": 500, "message": "Error occurred while registering new user", "result": None}
 
 from app.mainmodule.models import Basal
 

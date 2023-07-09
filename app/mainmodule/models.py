@@ -8,7 +8,7 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
     email = db.Column(db.String(50))
-    password = db.Column(db.String(50))
+    password = db.Column(db.String(250))
     sugar_data = db.relationship('SugarData', back_populates="user")
     basal_intervals = db.relationship('Basal', back_populates="user")
 

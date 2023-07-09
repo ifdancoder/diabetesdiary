@@ -1,17 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="alert alert-danger" role="alert">
-    <ul class="mb-0">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-{% endwith %}
 <form method="POST" action="{{ url_for('mainmodule.diary_record') }}">
     {{ form.csrf_token }}
     <div class="form-group">
